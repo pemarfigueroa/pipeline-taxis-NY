@@ -218,3 +218,7 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+#Datos especificos Proyecto Pipeline de Tazis de New York
+/data
+*.duckdb
