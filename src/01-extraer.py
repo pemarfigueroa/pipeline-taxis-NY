@@ -63,6 +63,3 @@ def contar_lineas(archivo, v_year, v_month):
 if valida_param(p_year, p_month):
     descarga_archivo(url, f_bronze)
     contar_lineas(f_bronze, p_year, p_month)
-
-
-# Falta agregar el conteo de registros que hay en el parquet.
