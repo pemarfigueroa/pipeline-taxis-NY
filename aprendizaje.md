@@ -10,7 +10,20 @@ Por lo que busqué y encontré lo siguiente:
 
 ** Datos Lista **
 - `sys.argv[0]`: es siempre el nombre del script.
-- `sys.argv[x]`: desde el 1 en adelante son los otros argumentos que se le entregan.
+- `sys.argv[x]`: desde el 1 en adelante son los otros argumentos que se le entregan, en el caso de este proyecto el año y mes.
+
+## Descargar los origenes desde URL
+
+`import request`: este modulo se usó en el proceso de indicadores para leer una API.
+
+** Uso **
+```respuesta = requests.get(url)
+if respuesta.status_code == 200:
+    with open(destino, 'wb') as f:
+        f.write(respuesta.content)
+else:
+    print(f'Error al descargar: {respuesta.status_code}')```
+
 
 ## Autor
 
