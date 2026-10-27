@@ -8,6 +8,7 @@ Se define que ni datos ni archivos duckdb se versionan.
 # el archivo del periodo 202502 tiene 3577543 lineas
 # el archivo del periodo 202503 tiene 4145257 lineas
 
+# el archivo lookup de Taxi_Zone tiene 265 lineas
 
 
 - `pip install requests`
