@@ -24,18 +24,18 @@ def descarga_archivo(url, destino, intentos=3, espera=5):
                 f.write(respuesta.content)
             return respuesta.content
         except requests.exceptions.RequestException as error:
-            print(f"Intento {intento} de {intentos} falló: {error}")
+            print(f"Intento {intento} de {intentos} falló: {error}.")
             if intento < intentos:
                 time.sleep(espera*intento)
     raise RuntimeError(
-        f"No se pudo extraer {url} después de {intentos} intentos")
+        f"No se pudo extraer {url} después de {intentos} intentos.")
 
 
 def contar_lineas(archivo):
     df = pd.read_csv(archivo)
     cant_lineas = len(df)
     print(
-        f"el archivo lookup de Taxi_Zone tiene {cant_lineas} lineas")
+        f"el archivo lookup de Taxi_Zone tiene {cant_lineas} líneas.")
     return cant_lineas
 
 
