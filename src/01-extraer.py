@@ -1,0 +1,54 @@
+import requests  # Para buscar los origenes en URL
+import sys       # Para leer los parametros de ejecucion
+import time      # para determinar el tiempo de espera entre reintentos de descarga
+
+from pathlib import Path
+
+# Declaracion de parametros de entrada
+p_year = sys.argv[1]
+p_month = sys.argv[2].zfill(2)
+
+# Declaracion de parametros del proceso
+url = f"https://d37ci6vzurychx.cloudfront.net/trip-data/yellow_tripdata_{p_year}-{p_month}.parquet"
+
+raiz = Path(__file__).resolve().parent.parent
+
+f_bronze = raiz / "data" / "bronze" / \
+    f"year={p_year}" / f"month{p_month}" / \
+    f"yellow_tripdata_{p_year}-{p_month}.parquet"
+
+
+def valida_param(v_year, v_month):
+    v_valido = False
+    if int(v_year) in range(2009, 2027):
+        if v_year == 2026 and int(v_month) in range(1, 9):
+            v_valido == True
+        elif int(v_month) in range(1, 13):
+            v_valido = True
+    if not (v_valido):
+        print(
+            f"Parámetros Año: {v_year} y/o Mes: {int(v_month)} ingresados no válidos.")
+    return v_valido
+
+
+def descarga_archivo(url, destino, intentos=3, espera=5):
+    # Permite crear las carpetas HIVE, si es que no existen
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    # Proceso de descarga del archivo
+    for intento in range(1, intentos):
+        try:
+            respuesta = requests.get(url, timeout=10)
+            respuesta.raise_for_status()
+            with open(destino, 'wb') as f:
+                f.write(respuesta.content)
+            return respuesta.content
+        except requests.exceptions.RequestException as error:
+            print(f"Intento {intento} de {intentos} falló: {error}")
+            if intento < intentos:
+                time.sleep(espera*intento)
+    raise RuntimeError(
+        f"No se pudo extraer {url} después de {intentos} intentos")
+
+
+if valida_param(p_year, p_month):
+    descarga_archivo(url, f_bronze)
