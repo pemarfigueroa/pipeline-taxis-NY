@@ -6,6 +6,10 @@ import time
 
 from pathlib import Path
 
+if len(sys.argv) != 3:
+    print("Cantidad de parámetros inválidos debe ingresar año y mes.")
+    sys.exit(1)
+
 # Declaracion de parametros de entrada
 p_year = sys.argv[1]
 p_month = sys.argv[2]

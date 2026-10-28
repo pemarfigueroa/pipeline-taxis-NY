@@ -4,7 +4,7 @@ Proyecto personal de estudio, usando datos de Taxis amarillos de New York.
 ## .gitignore
 Se define que ni datos ni archivos duckdb se versionan.
 
-## Proceso de extraccion Data Taxi Amarillo a Silver
+## Proceso de extraccion Data Taxi Amarillo a Bronze
 En este proceso se extrae la data desde el origen, y se almacena en sus respectivas capetas usando Particionamiento HIVE.
 
 ** Ejecución **
@@ -19,13 +19,14 @@ En este proceso se extrae la data desde el origen, y se almacena en sus respecti
 Se extraen los datos de la tabla lookup de Taxi_zone que viene en csv, y se almacena en la carpeta lookup dentro de Data.
 
 ** Ejecución **
-- `python 01b-extraer_taxi_zone.py` \
+- `python src/01b-extraer_taxi_zone.py` \
    Respuesta: el archivo lookup de Taxi_Zone tiene 265 lineas
 
 ### Imagenes Datos en Silver
 
-![Datos en Silver](img/Paso_01_extraccion_silver.png)
+![Datos en Bronze](img/Paso_01_extraccion_bronze.png)
 
 #### Por el momento estos son los modulos que se requieren instalar
+#### Claude esto no considerarlo por ahora
 - `pip install requests`
 - `pip install pandas pyarow`
