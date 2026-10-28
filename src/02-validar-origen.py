@@ -20,22 +20,19 @@ f_silver = raiz / "data" / "silver" / \
     f"viajes_taxi_{p_year}-{p_month.zfill(2)}.parquet"
 
 f_cuarentena = raiz / "data" / "silver" / \
-    f"year={p_year}" / f"month={p_month.zfill(2)}" / \
+    f"year={p_year}estandar_parquet" / f"month={p_month.zfill(2)}" / \
     f"cuarentena_{p_year}-{p_month.zfill(2)}."
 
 
-# def cambia_nombres(df):
-#     # para modificar los nombres de las columnas aun estandar.
+def estandar_parquet(archivo):
+    df = pd.read_parquet(archivo)
+    df.columns = ["id_proveedor", "fecha_inicio_taximetro", "fecha_fin_taximetro", "cant_pasajeros", "distancia_viaje", "id_final_tarifa", "flag_almac_memoria", "id_zona_origen", "id_zona_destino",
+                  "tipo_pago", "tarifa_taximeto", "recargos_extra", "impto_tarifa", "monto_propina", "monto_total_peajes", "recargo_mejoras", "monto_total", "recargo_congestion", "tarifa_aeropuerto", "tarifa_congest_cbd"]
 
-#     return df_aux
-
-
-# def valida_lineas(df):
-
-#     return df_quar
+    return df
 
 
 if __name__ == "__main__":
 
-    df = pd.read_parquet(f_bronze)
+    df = estandar_parquet(f_bronze)
     print(df.dtypes)

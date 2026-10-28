@@ -22,6 +22,9 @@ Se extraen los datos de la tabla lookup de Taxi_zone que viene en csv, y se alma
 - `python 01b-extraer_taxi_zone.py` \
    Respuesta: el archivo lookup de Taxi_Zone tiene 265 lineas
 
+### Imagenes Datos en Silver
+
+![Datos en Silver](img/Paso_01_extraccion_silver.png)
 
 #### Por el momento estos son los modulos que se requieren instalar
 - `pip install requests`
