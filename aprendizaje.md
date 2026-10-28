@@ -12,6 +12,13 @@ Por lo que busqué y encontré lo siguiente:
 - `sys.argv[0]`: es siempre el nombre del script.
 - `sys.argv[x]`: desde el 1 en adelante son los otros argumentos que se le entregan, en el caso de este proyecto el año y mes.
 
+En caso de Error en el numero de parametros se usa:
+
+`if len(sys.argv) != 3:
+    print("Cantidad de parámetros inválidos debe ingresar año y mes.")
+    sys.exit(1)`
+
+
 ## Descargar los origenes desde URL
 
 `import request`: este modulo se usó en el proceso de indicadores para leer una API.
