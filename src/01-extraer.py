@@ -28,7 +28,7 @@ def valida_param(v_year, v_month):
     v_valido = False
     if int(v_year) in range(2009, 2027):
         if int(v_year) == 2026 and int(v_month) in range(1, 9):
-            v_valido == True
+            v_valido = True
         elif int(v_month) in range(1, 13):
             v_valido = True
     if not (v_valido):
@@ -37,14 +37,14 @@ def valida_param(v_year, v_month):
     return v_valido
 
 
-def descarga_archivo(url, destino, intentos=3, espera=5):
-    # Permite crear las carpetas HIVE, si es que no existen
-    destino.parent.mkdir(parents=True, exist_ok=True)
+def descarga_archivo(url, destino, intentos=4, espera=5):
     # Proceso de descarga del archivo
-    for intento in range(1, intentos):
+    for intento in range(1, intentos + 1):
         try:
             respuesta = requests.get(url, timeout=10)
             respuesta.raise_for_status()
+            # Permite crear las carpetas HIVE, si es que no existen
+            destino.parent.mkdir(parents=True, exist_ok=True)
             with open(destino, 'wb') as f:
                 f.write(respuesta.content)
             return respuesta.content
