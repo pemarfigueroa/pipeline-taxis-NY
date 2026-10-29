@@ -30,3 +30,4 @@ Se extraen los datos de la tabla lookup de Taxi_zone que viene en csv, y se alma
 #### Claude esto no considerarlo por ahora
 - `pip install requests`
 - `pip install pandas pyarow`
+- `pip install duckdb`
