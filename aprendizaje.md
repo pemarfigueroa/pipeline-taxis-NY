@@ -31,6 +31,40 @@ if respuesta.status_code == 200:
 else:
     print(f'Error al descargar: {respuesta.status_code}')```
 
+## Usando duckdb
+Se usa para realizar consultas SQL sobre los objetos que tenemos, por ejemplo archivos parquet, CSV, json, etc. \
+
+Se crea una consulta SQL y luego se comecta de la siguiente forma:
+
+'''
+consulta = "SELECT campo1, campo2, campo3 FROM tabla;"
+
+sql_base = duckdb.sql(consulta)
+'''
+
+Esto queda guardado como `DuckDBPyRelation`
+
+Para este proyecto eso lo use para filtrar y poder realizar los select respectivos:
+
+```
+sql_base = duckdb.sql(consulta)
+rel_rech = (
+        sql_base
+        .select("""id_proveedor, fecha_inicio_taximetro,
+                fecha_fin_taximetro, cant_pasajeros,
+                distancia_viaje, id_final_tarifa,
+                flag_almac_memoria, id_zona_origen,
+                id_zona_destino, tipo_pago, 
+                tarifa_taximeto, recargos_extra,
+                impto_tarifa, monto_propina,
+                monto_total_peajes, recargo_mejoras,
+                monto_total, recargo_congestion,
+                tarifa_aeropuerto, tarifa_congest_cbd,
+                cod_rechazo, fecha_ejecucion""")
+        .filter("cod_rechazo <> 'V00'")
+ ) 
+```
+
 
 ## Autor
 
