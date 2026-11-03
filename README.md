@@ -49,8 +49,8 @@ Solicitud recibida de validacion de registros:
    - El Archivo origen yellow_tripdata_2025-01.parquet tiene 3475226 registros, Registros Ok: 3229420, Registros Rechazados: 245806.
 
    Detalle cod_rechazo:\
+
 │ cod_rechazo │ cant_registros │
-│   varchar   │     int64      │
 |:-----------:|---------------:|
 │ V01         │             22 │
 │ V02         │           2051 │
@@ -65,7 +65,6 @@ Solicitud recibida de validacion de registros:
 
    Detalle por cod_rechazo:\
 │ cod_rechazo │ cant_registros │
-│   varchar   │     int64      │
 |:-----------:|---------------:|
 │ V01         │             31 │
 │ V02         │           5164 │
@@ -81,7 +80,6 @@ Solicitud recibida de validacion de registros:
    Detalle por cod_rechazo:\
 
 │ cod_rechazo │ cant_registros │
-│   varchar   │     int64      │
 |:-----------:|---------------:|
 │ V01         │             33 │
 │ V02         │          22280 │
