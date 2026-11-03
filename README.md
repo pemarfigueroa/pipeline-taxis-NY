@@ -48,22 +48,23 @@ Solicitud recibida de validacion de registros:
    Resultado: 
    - El Archivo origen yellow_tripdata_2025-01.parquet tiene 3475226 registros, Registros Ok: 3229420, Registros Rechazados: 245806.
 
-   Detalle cod_rechazo:\
+   Detalle cod_rechazo: \
 
-│ cod_rechazo │ cant_registros │
+| cod_rechazo | cant_registros |
 |:-----------:|---------------:|
-│ V01         │             22 │
-│ V02         │           2051 │
-│ V03         │             20 │
-│ V04         │          90196 │
-│ V05         │         129866 │
-│ V08         │          23651 │
+| V01         |             22 |
+| V02         |           2051 |
+| V03         |             20 |
+| V04         |          90196 |
+| V05         |         129866 |
+| V08         |          23651 |
 
 - `python src/02-validar-origen.py 2025 2`
    Resultado:
    - El Archivo origen yellow_tripdata_2025-02.parquet tiene 3577543 registros, Registros Ok: 3285841, Registros Rechazados: 291702.
 
-   Detalle por cod_rechazo:\
+   Detalle por cod_rechazo: \
+
 │ cod_rechazo │ cant_registros │
 |:-----------:|---------------:|
 │ V01         │             31 │
@@ -77,7 +78,7 @@ Solicitud recibida de validacion de registros:
    Resultado:
    - El Archivo origen yellow_tripdata_2025-03.parquet tiene 4145257 registros, Registros Ok: 3806372, Registros Rechazados: 338885.
 
-   Detalle por cod_rechazo:\
+   Detalle por cod_rechazo: \
 
 │ cod_rechazo │ cant_registros │
 |:-----------:|---------------:|
