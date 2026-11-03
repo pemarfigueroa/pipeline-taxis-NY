@@ -46,8 +46,7 @@ Esto queda guardado como `DuckDBPyRelation`
 
 Para este proyecto eso lo use para filtrar y poder realizar los select respectivos:
 
-```
-sql_base = duckdb.sql(consulta)
+```sql_base = duckdb.sql(consulta)
 rel_rech = (
         sql_base
         .select("""id_proveedor, fecha_inicio_taximetro,
@@ -62,7 +61,7 @@ rel_rech = (
                 tarifa_aeropuerto, tarifa_congest_cbd,
                 cod_rechazo, fecha_ejecucion""")
         .filter("cod_rechazo <> 'V00'")
- ) 
+ );
 ```
 
 
