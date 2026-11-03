@@ -48,51 +48,47 @@ Solicitud recibida de validacion de registros:
    Resultado: 
    - El Archivo origen yellow_tripdata_2025-01.parquet tiene 3475226 registros, Registros Ok: 3229420, Registros Rechazados: 245806.
 
-   Detalle cod_rechazo:
-┌─────────────┬────────────────┐
+   Detalle cod_rechazo:\
 │ cod_rechazo │ cant_registros │
 │   varchar   │     int64      │
-├─────────────┼────────────────┤
+|:-----------:|---------------:|
 │ V01         │             22 │
 │ V02         │           2051 │
 │ V03         │             20 │
 │ V04         │          90196 │
 │ V05         │         129866 │
 │ V08         │          23651 │
-└─────────────┴────────────────┘
+
 - `python src/02-validar-origen.py 2025 2`
    Resultado:
    - El Archivo origen yellow_tripdata_2025-02.parquet tiene 3577543 registros, Registros Ok: 3285841, Registros Rechazados: 291702.
 
-   Detalle por cod_rechazo:
-┌─────────────┬────────────────┐
+   Detalle por cod_rechazo:\
 │ cod_rechazo │ cant_registros │
 │   varchar   │     int64      │
-├─────────────┼────────────────┤
+|:-----------:|---------------:|
 │ V01         │             31 │
 │ V02         │           5164 │
 │ V03         │             16 │
 │ V04         │          99098 │
 │ V05         │         166367 │
 │ V08         │          21026 │
-└─────────────┴────────────────┘
 
 - `python src/02-validar-origen.py 2025 3`
    Resultado:
    - El Archivo origen yellow_tripdata_2025-03.parquet tiene 4145257 registros, Registros Ok: 3806372, Registros Rechazados: 338885.
 
-   Detalle por cod_rechazo:
-┌─────────────┬────────────────┐
+   Detalle por cod_rechazo:\
+
 │ cod_rechazo │ cant_registros │
 │   varchar   │     int64      │
-├─────────────┼────────────────┤
+|:-----------:|---------------:|
 │ V01         │             33 │
 │ V02         │          22280 │
 │ V03         │             11 │
 │ V04         │         102960 │
 │ V05         │         192208 │
 │ V08         │          21393 │
-└─────────────┴────────────────┘
 
 ## Imagenes de Validación a Silver
 
