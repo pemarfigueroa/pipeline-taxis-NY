@@ -5,6 +5,7 @@ import pandas as pd
 
 from datetime import datetime, date
 from pathlib import Path
+from typing import Literal
 
 if len(sys.argv) != 3:
     print("Cantidad de parámetros inválidos debe ingresar año y mes.")
@@ -83,8 +84,8 @@ SELECT id_proveedor,
        tarifa_congest_cbd,
        CASE 
           WHEN strftime(fecha_inicio_taximetro, '%Y%m') <> {p_year}{p_month.zfill(2)} THEN 'V01'
-          WHEN strftime(fecha_fin_taximetro, '%Y%m') <> {p_year}{p_month.zfill(2)} THEN 'V02'
-          WHEN datediff('hour', fecha_inicio_taximetro, fecha_fin_taximetro) > 24 THEN 'V03'
+          WHEN fecha_fin_taximetro <= fecha_inicio_taximetro THEN 'V02'
+          WHEN DATE_DIFF('minute', fecha_inicio_taximetro, fecha_fin_taximetro) / 60.00 > 24 THEN 'V03'
           WHEN distancia_viaje <= 0 THEN 'V04'
           WHEN (tarifa_taximeto < 0) OR (monto_total < 0) THEN 'V05'
           WHEN O.id_origen IS NULL OR D.id_destino IS NULL THEN 'V06'
@@ -101,7 +102,7 @@ SELECT id_proveedor,
           ON  B.id_zona_destino = D.id_destino;"""
 
 
-def guardar_cuarentena(consulta, arch_cuaretn):
+def obtener_cuarentena(consulta, arch_cuaretn):
     # Para guardar los datos de cuarentena
     sql_base = duckdb.sql(consulta)
     rel_rech = (
@@ -118,14 +119,17 @@ def guardar_cuarentena(consulta, arch_cuaretn):
                 tarifa_aeropuerto, tarifa_congest_cbd,
                 cod_rechazo, fecha_ejecucion""")
         .filter("cod_rechazo <> 'V00'")
-     ) 
-    arch_cuaretn.parent.mkdir(parents=True, exist_ok=True)
-    rel_rech.write_csv(arch_cuaretn)
+     )
+    cont_aux = rel_rech.aggregate("COUNT()").df().iloc[0, 0]
+    cont_rech = int(cont_aux)
+    return rel_rech, cont_rech
+    # arch_cuaretn.parent.mkdir(parents=True, exist_ok=True)
+    # rel_rech.write_csv(arch_cuaretn)
 
-def guardar_datos_silver(consulta, archivo):
+def obtener_datos_silver(consulta, archivo):
     # Para guardar los datos de cuarentena
     sql_base = duckdb.sql(consulta)
-    rel_rech = (
+    rel_silver = (
         sql_base
         .filter("cod_rechazo == 'V00'")
         .select("""id_proveedor, fecha_inicio_taximetro,
@@ -139,19 +143,33 @@ def guardar_datos_silver(consulta, archivo):
                 monto_total, recargo_congestion,
                 tarifa_aeropuerto, tarifa_congest_cbd""")
      ) 
-    archivo.parent.mkdir(parents=True, exist_ok=True)
-    rel_rech.write_parquet(archivo)
+    cont_aux = rel_silver.aggregate("COUNT()").df().iloc[0, 0]
+    cont_silver = int(cont_aux)
+    return rel_silver, cont_silver
 
-def validar_archivos(arch_final, arch_rech):
-    df_rech = pd.read_csv(arch_rech)
-    lineas_rech = len(df_rech)
-    print(f"El archivo cuarentena tiene {lineas_rech} líneas.")
-    df_base = pd.read_parquet(arch_final)
-    lineas_base = len(df_base)
-    print(f"El archivo limpio tiene {lineas_base} líneas.")
+def validar_archivos(archivo, cont_ok, cont_rech):
+    sql_base = f"""SELECT COUNT(1)
+                     FROM read_parquet('{archivo}', hive_partitioning=True);"""
+    rel_base = duckdb.sql(sql_base)
+    cont_base = rel_base.df().iloc[0, 0]
+    return (cont_base == cont_ok + cont_rech ), cont_base
+
+def cargar_archivo(consulta, contador, archivo, tipo: Literal["parquet", "csv"]):
+    # Se define Tipo 1: Parquet; 2: CSV
+    if contador >= 1:
+        archivo.parent.mkdir(parents=True, exist_ok=True)
+        if tipo == "parquet":
+            consulta.write_parquet(archivo)
+        else:
+            consulta.write_csv(archivo)
+
+def imprimir_cuadratura(archivo, cont_base, cont_ok, cont_rech):
+    nombre = Path(archivo).name
+    print(f"El Archivo origen {nombre} tiene {cont_base} registros, Registros Ok: {cont_ok}, Registros Rechazados: {cont_rech}.")
+
 
 def detalle_cuarentena(archivo):
-    consulta = f"""SELECT cod_rechazo, COUNT(1) AScant_registros
+    consulta = f"""SELECT cod_rechazo, COUNT(1) AS cant_registros
                     FROM read_csv('{archivo}')
                    GROUP BY cod_rechazo
                    ORDER BY cod_rechazo;"""
@@ -159,7 +177,13 @@ def detalle_cuarentena(archivo):
 
 if __name__ == "__main__":
     # creo variables para el proceso
-    guardar_cuarentena(sql_bronze, f_cuarentena)
-    guardar_datos_silver(sql_bronze, f_silver)
-    validar_archivos(f_silver, f_cuarentena)
-    detalle_cuarentena(f_cuarentena)
+    sql_rech, cont_rech = obtener_cuarentena(sql_bronze, f_cuarentena)
+    sql_silver, cont_silver = obtener_datos_silver(sql_bronze, f_silver)
+    cuadra_valido, cont_bronze = validar_archivos(f_bronze, cont_silver, cont_rech)
+    if cuadra_valido:
+        cargar_archivo(sql_silver, cont_silver, f_silver, 'parquet')
+        cargar_archivo(sql_rech, cont_rech, f_cuarentena, 'csv')
+        imprimir_cuadratura(f_bronze, cont_bronze, cont_silver, cont_rech)
+        detalle_cuarentena(f_cuarentena)
+    else:
+        print("La cuadratura del proceso ha fallado.")
