@@ -65,14 +65,14 @@ Solicitud recibida de validacion de registros:
 
    Detalle por cod_rechazo: \
 
-│ cod_rechazo │ cant_registros │
+| cod_rechazo | cant_registros |
 |:-----------:|---------------:|
-│ V01         │             31 │
-│ V02         │           5164 │
-│ V03         │             16 │
-│ V04         │          99098 │
-│ V05         │         166367 │
-│ V08         │          21026 │
+| V01         |             31 |
+| V02         |           5164 |
+| V03         |             16 |
+| V04         |          99098 |
+| V05         |         166367 |
+| V08         |          21026 |
 
 - `python src/02-validar-origen.py 2025 3`
    Resultado:
@@ -80,14 +80,14 @@ Solicitud recibida de validacion de registros:
 
    Detalle por cod_rechazo: \
 
-│ cod_rechazo │ cant_registros │
+| cod_rechazo | cant_registros |
 |:-----------:|---------------:|
-│ V01         │             33 │
-│ V02         │          22280 │
-│ V03         │             11 │
-│ V04         │         102960 │
-│ V05         │         192208 │
-│ V08         │          21393 │
+| V01         |             33 |
+| V02         |          22280 |
+| V03         |             11 |
+| V04         |         102960 |
+| V05         |         192208 |
+| V08         |          21393 |
 
 ## Imagenes de Validación a Silver
 
