@@ -93,6 +93,12 @@ Solicitud recibida de validacion de registros:
 
 ![Datos en Silver](img/Paso_02_Validacion_y_Silver.png)
 
+### Información Adicional de Validaciones.
+Se detectaron diferencias grandes entre los registros rechazados principalmente comparando enero 2025 y marzo 2025, lo que se puede indicar de esto es:
+
+- Para el código de rechazo V02, la máxima diferencia la tiene el Operador con ID 7, con una diferencia entre enero y marzo de un 1086%.
+- Para el código de rechazo V05, la máxima diferencia la tiene el Operador con Id 2, con una diferencia entre enero y marzo de un 148%.
+
 #### Por el momento estos son los modulos que se requieren instalar
 #### Claude esto no considerarlo por ahora
 - `pip install requests`
